@@ -16,6 +16,7 @@ const argv = yargs(hideBin(process.argv))
 			desc: 'Specifies alternate browser path',
 			default: undefined,
 			group: 'puppeteer',
+			demandOption: true,
 		},
 		'regex': {
 			alias: 'r',
