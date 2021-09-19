@@ -2,7 +2,7 @@
 import fs from 'fs';
 import os from 'os';
 import path from 'path';
-import { Browser, Page } from 'puppeteer';
+import { Browser, Page } from 'puppeteer-core';
 import { argv, url } from './argv.js';
 import { makeBrowser, makePage, scrapeRequests } from './browser.js';
 
@@ -90,13 +90,13 @@ const rip = async () => {
 
 process.stdout.write('', () => {
 	rip().then((args: string) => {
-		const argFile = path.join(os.tmpdir(), 'ytdl-cmd.sh');
-		console.log(argFile);
+		const shFile = path.join(os.tmpdir(), 'ytdl-cmd.sh');
+		console.log(`Bash file created: ${shFile}`);
 		try {
-			fs.rmSync(argFile);
+			fs.rmSync(shFile);
 		} catch (err) {}
 		if (!argv['quiet']) console.log(args);
-		fs.writeFileSync(argFile, args);
+		fs.writeFileSync(shFile, args);
 	});
 });
 

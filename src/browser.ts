@@ -5,7 +5,7 @@ import puppeteer, {
 	HTTPRequest,
 	LaunchOptions,
 	Page,
-} from 'puppeteer';
+} from 'puppeteer-core';
 
 export const makeBrowser = async (
 	options?: LaunchOptions & BrowserLaunchArgumentOptions & ConnectOptions
