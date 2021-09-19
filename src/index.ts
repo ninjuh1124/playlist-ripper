@@ -9,6 +9,7 @@ import { makeBrowser, makePage, scrapeRequests } from './browser.js';
 const rip = async () => {
 	let browser: Browser;
 	let args = ['youtube-dl'];
+
 	if (argv.verbose) {
 		console.log(`Show browser?: ${argv['show-browser']}`);
 		console.log(
@@ -20,7 +21,9 @@ const rip = async () => {
 				`Cookie domain(s): ${argv['cookie-domain'].join(', ')}`
 			);
 		}
+		if (argv.output) console.log(`Output filename: ${argv.output}`);
 	}
+
 	try {
 		browser = await makeBrowser({
 			headless: !argv['show-browser'],
@@ -75,7 +78,9 @@ const rip = async () => {
 				args.push(`--add-header "Cookie:${cookies}"`);
 			}
 		}
+		if (argv.simulate) args.push('--simulate');
 		if (argv['quiet']) args.push('--quiet');
+		if (argv.output) args.push(`-o ${argv.output}`);
 		args.push(request.url());
 	} catch (error) {}
 

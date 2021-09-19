@@ -6,6 +6,7 @@ declare const argv: {
     regex: string;
     'cookie-domain': never[];
     simulate: boolean;
+    output: string;
     quiet: boolean;
     verbose: boolean;
     _: (string | number)[];

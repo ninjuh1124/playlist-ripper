@@ -38,6 +38,12 @@ const argv = yargs(hideBin(process.argv))
 			boolean: true,
 			group: 'output',
 		},
+		'output': {
+			alias: 'o',
+			default: '',
+			desc: 'Output filename',
+			group: 'output',
+		},
 		'quiet': {
 			alias: 'q',
 			default: false,
