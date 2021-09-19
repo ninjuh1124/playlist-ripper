@@ -32,7 +32,7 @@ export const scrapeRequests = async (
 ): Promise<HTTPRequest> => {
 	await page.setRequestInterception(true);
 	setTimeout(() => {
-		page.reload();
+		page.reload().catch(() => {});
 	}, 2000);
 	return new Promise((resolve, reject) => {
 		page.on('request', (request) => {

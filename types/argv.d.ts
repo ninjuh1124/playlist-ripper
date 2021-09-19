@@ -7,6 +7,7 @@ declare const argv: {
     'cookie-domain': never[];
     simulate: boolean;
     quiet: boolean;
+    verbose: boolean;
     _: (string | number)[];
     $0: string;
 };

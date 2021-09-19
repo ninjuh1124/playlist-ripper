@@ -9,6 +9,18 @@ import { makeBrowser, makePage, scrapeRequests } from './browser.js';
 const rip = async () => {
 	let browser: Browser;
 	let args = ['youtube-dl'];
+	if (argv.verbose) {
+		console.log(`Show browser?: ${argv['show-browser']}`);
+		console.log(
+			`Chrome path: ${argv['chrome-path'] || 'puppeteer default'}`
+		);
+		console.log(`Playlist URL: ${new RegExp(argv.regex)}`);
+		if (argv['cookie-domain'].length) {
+			console.log(
+				`Cookie domain(s): ${argv['cookie-domain'].join(', ')}`
+			);
+		}
+	}
 	try {
 		browser = await makeBrowser({
 			headless: !argv['show-browser'],
@@ -17,19 +29,29 @@ const rip = async () => {
 				height: 1080,
 			},
 			executablePath: argv['chrome-path'],
+		}).then((browser) => {
+			if (argv.verbose) console.log('Browser launched');
+			return browser;
 		});
 	} catch (error) {
+		if (argv.verbose) console.warn('ERROR in launching browser');
 		process.exit(2);
 	}
 
 	let page: Page;
 	try {
-		page = await makePage(browser, url);
+		page = await makePage(browser, url).then((page) => {
+			if (argv.verbose) console.log('Page created');
+			return page;
+		});
 
 		const request = await scrapeRequests(
 			page,
 			argv.regex ? new RegExp(argv.regex) : undefined
-		);
+		).then((request) => {
+			if (argv.verbose) console.log(`Request found at ${request.url()}`);
+			return request;
+		});
 
 		if (argv['cookie-domain'].length) {
 			const cookies: string = (
@@ -43,6 +65,13 @@ const rip = async () => {
 				.map((cookie: Cookie) => `${cookie.name}=${cookie.value}`)
 				.join('; ');
 			if (cookies.length) {
+				if (argv.verbose)
+					console.log(
+						`Cookies found: ${cookies
+							.split('; ')
+							.map((c) => c.split('=')[0])
+							.join(', ')}`
+					);
 				args.push(`--add-header "Cookie:${cookies}"`);
 			}
 		}

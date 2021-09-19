@@ -45,6 +45,12 @@ const argv = yargs(hideBin(process.argv))
 			desc: 'Hide all console output, and pass --quiet to youtube-dl',
 			group: 'output',
 		},
+		'verbose': {
+			alias: 'v',
+			default: false,
+			boolean: true,
+			group: 'output',
+		},
 	})
 	.parseSync();
 
