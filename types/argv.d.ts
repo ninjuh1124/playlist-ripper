@@ -4,6 +4,9 @@ declare const argv: {
     'show-browser': boolean;
     'chrome-path': undefined;
     regex: string;
+    'cookie-domain': never[];
+    simulate: boolean;
+    quiet: boolean;
     _: (string | number)[];
     $0: string;
 };
